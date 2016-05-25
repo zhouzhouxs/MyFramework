@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<title>emoji存储测试</title>
+	<link rel="stylesheet" type="text/css" href="public/css/style.css">
+	<link rel="stylesheet" type="text/css" href="public/css/icon.css">
+</head>
+<body>
+<div class="container">
+	<form method="post" action="?c=Index&a=indexsave" class="padding">
+		<textarea name="emoji" rows="5"></textarea>
+		<button type="submit" class="btn">提交</button>
+		<button type="button" class="btn" id="change">替换</button>
+		<div id="box"></div>
+	</form>
+</div>
+<script src="public/js/jquery221.min.js"></script>
+<script type="text/javascript" src="public/emoji/emoji-list-with-image.js"></script>
+<script type="text/javascript" src="public/emoji/punycode.js"></script>
+<script type="text/javascript" src="public/emoji/emoji.js"></script>
+<script type="text/javascript">
+var emojiList = <?php echo $emoji; ?>;
+$(document).ready(function(){
+	// $('.container').emoji();
+	$("#change").click(function(){
+		var $val = $('textarea').val();
+		// var index = '1f600';
+		// $("#box").html(emojiList[index]);
+		// console.log(emojiList[index]);
+		var $transVal = ioNull.emoji.parse($val);
+		$("#box").html($transVal);
+		$('textarea').val($transVal);
+		//ioNull.emoji.parse($val);
+		// var len = $val.length;
+		// str = toCodePoint($val,'-');
+		// //str = $val.charCodeAt(0) + $val.charCodeAt(1);
+		// //str.toString(16);
+		// $("#box").html(len+":"+str);
+		// $.getJSON('?c=Index&a=indexajax',{emoji:$val},function(ajax){
+		// 	$("#box").html(ajax);
+		// });
+	});
+	$("#get").click(function(){
+		alert($("#box > img").attr('unicode16'));
+	});
+	// $('pre').each(function(){
+	// 	var _this = $(this);
+	// 	_this.html(ioNull.emoji.parse(_this.html()));
+	// })
+	$('textarea').keyup(function(){
+		var _this = $(this);
+		// var $transVal = ioNull.emoji.parse(_this.val());
+		// _this.val($transVal);
+		var content = _this.val()+',';
+		_this.val(content);
+	});
+	// 
+	function toCodePoint(unicodeSurrogates,sep){
+		var 
+		r = [],
+		c = 0,
+		p = 0,
+		i = 0;
+		while (i < unicodeSurrogates.length) {
+			c = unicodeSurrogates.charCodeAt(i++);
+			if(p){
+				r.push((0x10000 + ((p - 0xD800) << 10) + (c - 0xDC00)).toString(16)); //计算4字节的unicode
+				p = 0;
+			}else if(0xD800 <= c && c <= 0xDBFF){
+				p = c;
+			}else{
+				r.push(c.toString(16));
+			}
+		}
+		return r.join(sep || '-');
+	}
+	
+});
+</script>
+</body>
+</html>

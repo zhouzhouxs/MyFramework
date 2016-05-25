@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer" content="webkit">
+	<meta name="author" content="jQuery插件库(www.jq22.com)">
+	<meta name="weburl" content="http://www.jq22.com/">
+	<title>qq表情</title>
+	<link href="css/style.css" rel="stylesheet">
+	<link href="css/normalize.css" rel="stylesheet">
+</head>
+<body>
+     <div id="show"></div>
+     
+     <div class="comment">
+        <div class="com_form">
+        	<textarea class="input" id="saytext" name="saytext"></textarea>
+        	<p><input type="button" class="sub_btn" value="提交"><span class="emotion">表情</span></p>
+        </div>
+     </div>    
+
+
+</body>
+
+<script  src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.qqFace.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('.emotion').qqFace({
+		id : 'facebox', 
+		assign:'saytext', 
+		path:'arclist/'	//表情存放的路径
+	});
+	$(".sub_btn").click(function(){
+		var str = $("#saytext").val();
+		$("#show").html(replace_em(str));
+		$("#saytext").val('');
+	});
+});
+</script>
+</html>
+
+
+
+
+  
+  
